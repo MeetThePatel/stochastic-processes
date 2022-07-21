@@ -2,14 +2,14 @@
 name = "stochastic-processes"
 description = "Stochastic processes simulation toolkit."
 author = "Meet Patel"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 repository = "https://github.com/MeetThePatel/stochastic-processes"
 homepage = "https://github.com/MeetThePatel/stochastic-processes"
 documentation = "https://docs.rs/stochastic_processes"
 readme = "README.md"
 license = "MIT"
-keywords = ["math", "stochastic", "simluation"]
+keywords = ["math", "stochastic", "simulation"]
 categories = ["mathematics"]
 
 [dependencies]
