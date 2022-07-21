@@ -4,9 +4,13 @@
 //!
 //! # Quick Start
 //!
-//! To create a process, call the `new` constructor for the desired process, and supply the constructor with the required parameters. To simulate a process, simply call `simulate` on the process.
+//! To create a process, call the `new` constructor for the desired process, and supply the
+//! constructor with the required parameters. To simulate a process, simply call `simulate`
+//! on the process.
 //!
-//! In the following example, an [Ornstein-Uhlenbeck](struct@OrnsteinUhlenbeck) is created with $\mu = \theta = \sigma = 1$. The processes is simluated with $x_0 = 0$ for 10 time steps, each time step 1 unit long. The path is stored inside of a [`SimulatedPath`].
+//! In the following example, an [Ornstein-Uhlenbeck](struct@OrnsteinUhlenbeck) is created with
+//! $\mu = \theta = \sigma = 1$. The processes is simluated with $x_0 = 0$ for 10 time steps,
+//! each time step 1 unit long. The path is stored inside of a [`SimulatedPath`].
 //!
 //! ```
 //! use stochastic_processes::{OrnsteinUhlenbeck, SimluatedPath};
@@ -17,10 +21,16 @@
 //! println!("{}", sim.path);
 //! ```
 
-use nalgebra::{Dynamic, Matrix, VecStorage, U1};
-
 mod ornsteinuhlenbeck;
 pub use self::ornsteinuhlenbeck::*;
+
+mod cir;
+pub use self::cir::*;
+
+mod gbm;
+pub use self::gbm::*;
+
+use nalgebra::{Dynamic, Matrix, VecStorage, U1};
 
 // TODO: Add documentation.
 pub trait StochasticProcess {

@@ -4,36 +4,29 @@ use nalgebra::Dim;
 use rand::{distributions::Distribution, thread_rng};
 use statrs::distribution::Normal;
 
-/// The [Ornstein-Uhlenbeck](https://en.wikipedia.org/wiki/Ornstein%E2%80%93Uhlenbeck_process) process.
+/// The [Geometric Brownian motion](https://en.wikipedia.org/wiki/Geometric_Brownian_motion) process.
 ///
 /// This is a stochastic process given by the following stochastic differential equation:
-/// $$ \textrm{d}x_t = \theta (\mu - x_t) \textrm{d}t + \sigma \textrm{d} W_t $$
+/// $$ \textrm{d}x_t = \mu x_t \textrm{d} t + \sigma x_t \textrm{d} W_t $$
 /// where $\theta$, $\mu$, and $\sigma$ are parameters of the process and $W_t$ is a standard Brownian motion.
 
-// TODO: Write test to make sure that OU process has correct distribution.
-
-pub struct OrnsteinUhlenbeck {
-    /// $\theta$ is the speed of reversion.
-    pub theta: f32,
-
-    /// $\mu$ is the long-term mean.
+pub struct GeometricBrownianMotion {
+    /// $\mu$ is the (percentage) drift.
     pub mu: f32,
 
-    /// $\sigma$ is the instantaneous volatility.
-    pub sigma: f32,
+    /// $\sigma$ is the (percentage) volatility.
+    pub sigma: f32
 }
 
-impl OrnsteinUhlenbeck {
-    /// Create a new Ornstein-Uhlenbeck process.
-    pub fn new(theta: f32, mu: f32, sigma: f32) -> Self {
-        Self { theta, mu, sigma }
-    }
+impl GeometricBrownianMotion {
+    /// Create a new Geometric Brownian Motion process.
+    pub fn new(mu: f32, sigma: f32) -> Self { Self { mu, sigma } }
 }
 
-impl StochasticProcess for OrnsteinUhlenbeck {
+impl StochasticProcess for GeometricBrownianMotion {
     #[allow(non_snake_case)]
     fn dynamics(&self, x: f32, dt: f32, dW: f32) -> f32 {
-        self.theta * (self.mu - x) * dt + self.sigma * dW
+	self.mu * x * dt + self.sigma * x * dW
     }
 
     fn simulate(&self, n: usize, dt: f32, x_0: f32) -> SimulatedPath {
