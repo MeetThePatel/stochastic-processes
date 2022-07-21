@@ -3,6 +3,13 @@ name = "stochastic-processes"
 author = "Meet Patel"
 version = "0.1.0"
 edition = "2021"
+repository = "https://github.com/MeetThePatel/stochastic-processes"
+homepage = "https://github.com/MeetThePatel/stochastic-processes"
+documentation = "https://docs.rs/stochastic_processes"
+readme = "README.md"
+license = "MIT"
+keywords = ["math", "stochastic", "simluation"]
+categories = ["mathematics"]
 
 [dependencies]
 nalgebra = "^0.31"
