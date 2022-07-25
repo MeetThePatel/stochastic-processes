@@ -8,58 +8,47 @@
 //! constructor with the required parameters. To simulate a process, simply call `simulate`
 //! on the process.
 //!
-//! In the following example, an [Ornstein-Uhlenbeck](struct@OrnsteinUhlenbeck) is created with
-//! $\mu = \theta = \sigma = 1$. The processes is simluated with $x_0 = 0$ for 10 time steps,
-//! each time step 1 unit long. The path is stored inside of a [`SimulatedPath`].
+//! In the following example, a [Geometric Brownian motion](struct@gbm::GeometricBrownianMotion) is created with
+//! $\mu = \sigma = 1$. The processes is simluated using the
+//! [Euler-Maruyama](trait@EulerMaruyama::EulerMaruyama) method. The path is stored inside of a
+//! [`SimulatedPath`]. Finally, the path is exported to a pickle file (for use in Python).
 //!
 //! ```
-//! use stochastic_processes::{OrnsteinUhlenbeck, SimluatedPath};
+//! use stochastic_processes::prelude::*;
 //!
-//! let ou: OrnsteinUhlenbeck = OrnsteinUhlenbeck::new(1.0, 1.0, 1.0);
-//! let sim: SimulatedPath = ou.simulate(10, 1.0, 0.0)
+//! let proc = GeometricBrownianMotion {
+//!     mu: 1.0,
+//!     sigma: 1.0,
+//! };
 //!
-//! println!("{}", sim.path);
+//! let sim = proc.run_euler_maruyama(1.0, 0.0, 1.0, 20);
+//! let _ = export_to_pickle(sim, "/tmp/test.pickle").unwrap();
 //! ```
 
-mod ornsteinuhlenbeck;
-pub use self::ornsteinuhlenbeck::*;
+pub mod processes;
 
-mod cir;
-pub use self::cir::*;
+#[cfg(any(feature = "py", feature = "json"))]
+pub mod export;
 
-mod gbm;
-pub use self::gbm::*;
+/// A convenience module appropriate for glob imports.
+pub mod prelude {
+    pub use crate::SimulatedPath;
+    pub use crate::processes::*;
 
-use nalgebra::{Dynamic, Matrix, VecStorage, U1};
+    #[cfg(feature = "py")]
+    pub use crate::export::py::*;
 
-// TODO: Add documentation.
-pub trait StochasticProcess {
-    #[allow(non_snake_case)]
-    // TODO: Add documentation.
-    fn dynamics(&self, x: f32, dt: f32, dW: f32) -> f32;
-
-    // TODO: Add documentation.
-    fn simulate(&self, n: usize, dt: f32, x_0: f32) -> SimulatedPath;
+    #[cfg(feature = "json")]
+    pub use crate::export::json::*;
 }
 
-// TODO: Add documentation.
-pub type Path = Matrix<f32, U1, Dynamic, VecStorage<f32, U1, Dynamic>>;
-
-/// Simluated Path.
+/// Representation of a simluated path.
 ///
-/// This is a struct holding one realization of a path.
-
-pub struct SimulatedPath {
-    /// Number of time steps to simulate.
-    pub n: usize,
-    /// Size of time step.
-    pub dt: f32,
-    /// Simulated path.
-    pub path: Path,
-}
-
-impl SimulatedPath {
-    pub fn new(n: usize, dt: f32, path: Path) -> Self {
-        Self { n, dt, path }
-    }
-}
+/// For $n$ time-steps, a simulated path is a $(n+1) \times 2$ matrix, where the first colum
+/// holds the time and the second column holds the process value.
+pub type SimulatedPath = nalgebra::Matrix<
+    f32,
+    nalgebra::Dynamic,
+    nalgebra::U2,
+    nalgebra::VecStorage<f32, nalgebra::Dynamic, nalgebra::U2>,
+>;

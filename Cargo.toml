@@ -13,9 +13,16 @@ keywords = ["math", "stochastic", "simulation"]
 categories = ["mathematics"]
 
 [dependencies]
-nalgebra = "^0.31"
+nalgebra = { version = "^0.31", features = ["serde-serialize"] }
 rand = "0.8.5"
 statrs = "0.15.0"
+serde = { version = "^1.0", features = ["derive"], optional = true }
+serde-pickle = { version = "^1.0", optional = true }
+serde_json = { version = "^1.0", optional = true }
+
+[features]
+py = ["dep:serde", "dep:serde-pickle"]
+json = ["dep:serde", "dep:serde_json"]
 
 [build]
 rustdocflags = ["--html-in-header", "katex-header.html"]
