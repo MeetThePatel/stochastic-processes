@@ -2,7 +2,7 @@
 name = "stochastic-processes"
 description = "Stochastic processes simulation toolkit."
 author = "Meet Patel"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 repository = "https://github.com/MeetThePatel/stochastic-processes"
 homepage = "https://github.com/MeetThePatel/stochastic-processes"
