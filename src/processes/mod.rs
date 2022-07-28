@@ -9,6 +9,9 @@ pub use gbm::*;
 mod ornstein_uhlenbeck;
 pub use ornstein_uhlenbeck::*;
 
+mod wiener;
+pub use wiener::*;
+
 /// Base trait for a stochastic process.
 pub trait StochasticProcess {}
 
