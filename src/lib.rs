@@ -8,9 +8,8 @@
 //! constructor with the required parameters. To simulate a process, simply call `simulate`
 //! on the process.
 //!
-//! In the following example, a [Geometric Brownian motion](struct@gbm::GeometricBrownianMotion) is created with
-//! $\mu = \sigma = 1$. The processes is simluated using the
-//! [Euler-Maruyama](trait@EulerMaruyama::EulerMaruyama) method. The path is stored inside of a
+//! In the following example, a [Geometric Brownian motion](struct@processes::GeometricBrownianMotion) is created with
+//! $\mu = \sigma = 1$. The processes is simluated using the Euler-Maruyama method. The path is stored inside of a
 //! [`SimulatedPath`]. Finally, the path is exported to a pickle file (for use in Python).
 //!
 //! ```
@@ -32,8 +31,8 @@ pub mod export;
 
 /// A convenience module appropriate for glob imports.
 pub mod prelude {
-    pub use crate::SimulatedPath;
     pub use crate::processes::*;
+    pub use crate::SimulatedPath;
 
     #[cfg(feature = "py")]
     pub use crate::export::py::*;
